@@ -1,0 +1,84 @@
+//■クエリ取得
+function getQuery(){
+    if( 1 < window.location.search.length ){
+        var query = window.location.search.substring( 1 );
+        var parameters = query.split( '&' );
+        var result = new Object();
+        for( var i = 0; i < parameters.length; i++ ){
+            var element = parameters[ i ].split( '=' );
+            var paramName = decodeURIComponent( element[ 0 ] );
+            var paramValue = decodeURIComponent( element[ 1 ] );
+            result[ paramName ] = decodeURIComponent( paramValue );
+        }
+        return result;
+    }
+    return null;
+}
+
+
+
+
+★使い方
+例）URLがこんな時
+http://hoge.co.jp/?sort=date&category=dictionary
+
+
+var q=getQuery();
+var s=q.sort
+※↑　sにdateという文字が入ってる
+
+
+
+/////////////////////////////////////////////
+//■テキストトリミング（バイト数）	
+trimString:function(str,byteSize){
+	var byte = 0;
+	var trimStr="";
+	for (var j=0,len=str.length; j <len ; j++) {
+		str.charCodeAt(j) < 0x100 ? byte++ : byte += 2;
+		trimStr +=str.charAt(j)
+		if(byte>=byteSize){
+			trimStr = trimStr.substr(0,j-2)+"..."
+			break;
+		}
+	}
+	return trimStr;
+}
+
+★使い方
+var t="aaaaaaaaaaaaa";
+t=trimString(t,5);
+※↑　tにaaaaaと入ってるはず。。
+
+
+//////////////////////////////////////////////
+//■改行追加
+
+★使い方
+var txt="aaaaabdfsdfasdfasdfsd"
+txt=txt.replace(/[\n]/g, "<br />");
+
+
+
+
+
+
+
+
+
+
+
+
+//画像プリロード
+var img=$('<img>');
+var src="hoge.jpg";
+img.attr('src', src);
+if (0 < img.get(0).width) {
+	onImgLoaded();
+} else {
+	img.on('load', onImgLoaded);
+}
+//ロード完了処理
+function onImgLoaded() {
+	alert("画像読みこみ完了")
+}
